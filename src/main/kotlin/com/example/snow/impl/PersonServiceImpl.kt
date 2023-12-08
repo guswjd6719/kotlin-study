@@ -1,23 +1,22 @@
-package com.example.snow.Impl
+package com.example.snow.impl
 
 import com.example.snow.Person
 import com.example.snow.PersonRepository
-import com.example.snow.PersonRes
 import com.example.snow.PersonService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 
 @Service
-class personServiceImpl(
+class PersonServiceImpl(
     private val personRepository: PersonRepository,
 ) : PersonService {
-    @Transactional
+    @Transactional(readOnly = true)
     override fun findAll(): List<Person> {
         return personRepository.findAll()
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     override fun findById(id: Long): Person {
         return personRepository.findById(id).orElseThrow()
     }

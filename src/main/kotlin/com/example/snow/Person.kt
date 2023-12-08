@@ -6,7 +6,9 @@ import jakarta.persistence.Id
 
 @Entity
 class Person(
-    @Id var id: Long, var name: String
+    @Id
+    var id: Long,
+    var name: String
 )
 
 data class PersonReq(

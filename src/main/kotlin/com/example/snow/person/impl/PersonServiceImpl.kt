@@ -1,8 +1,8 @@
-package com.example.snow.impl
+package com.example.snow.person.impl
 
-import com.example.snow.Person
-import com.example.snow.PersonRepository
-import com.example.snow.PersonService
+import com.example.snow.person.Person
+import com.example.snow.person.PersonRepository
+import com.example.snow.person.PersonService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

@@ -1,4 +1,4 @@
-package com.example.snow
+package com.example.snow.person
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

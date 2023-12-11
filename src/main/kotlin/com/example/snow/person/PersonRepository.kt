@@ -1,4 +1,4 @@
-package com.example.snow
+package com.example.snow.person
 
 import org.springframework.data.jpa.repository.JpaRepository
 

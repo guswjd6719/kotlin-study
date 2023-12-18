@@ -1,5 +1,8 @@
 package com.example.snow.person
 
+import com.example.snow.person.service.PersonService
+import com.example.snow.person.view.Person
+import com.example.snow.person.view.PersonRes
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
@@ -54,6 +57,7 @@ class PersonHandler(
         val count = request.queryParam("count").get()
 
         //lua script 파일 사용
+        //TODO - path PersonData- enum으로 따로 빼기
         val luaSetStockPath = "/lua/set-stock.lua"
         val setStockScript = DefaultRedisScript<Long>()
         setStockScript.setLocation(ClassPathResource(luaSetStockPath))

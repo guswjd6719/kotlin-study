@@ -14,6 +14,7 @@ class PersonRouter : WebFluxConfigurer {
 
     @Bean
     fun routerFunction(handler: PersonHandler): RouterFunction<*> = coRouter {
+        //TODO basepath 추가
         accept(MediaType.APPLICATION_JSON).nest {
             GET("/", handler::findAll)
             GET("/{id}", handler::findById)

@@ -1,4 +1,6 @@
-package com.example.snow.person
+package com.example.snow.person.service
+
+import com.example.snow.person.view.Person
 
 interface PersonService {
 

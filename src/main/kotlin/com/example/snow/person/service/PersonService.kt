@@ -1,6 +1,6 @@
 package com.example.snow.person.service
 
-import com.example.snow.person.view.Person
+import com.example.snow.person.Person
 
 interface PersonService {
 

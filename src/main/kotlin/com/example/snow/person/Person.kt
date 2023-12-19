@@ -1,4 +1,4 @@
-package com.example.snow.person.view
+package com.example.snow.person
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

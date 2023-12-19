@@ -1,8 +1,6 @@
 package com.example.snow.person
 
 import com.example.snow.person.service.PersonService
-import com.example.snow.person.view.Person
-import com.example.snow.person.view.PersonRes
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript

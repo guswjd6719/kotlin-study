@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
 class PersonRouter {
-    val basePath ="/base"
+    val basePath ="/person"
     @Bean
     fun personRoute(handler: PersonHandler) = coRouter {
         path(basePath).nest {

@@ -17,11 +17,26 @@ class MemberHandler(
         }
     }
 
+    suspend fun findById(request: ServerRequest): ServerResponse {
+        val id = request.pathVariable("id").toLong()
+        return memberService.findById(id).let {
+            ServerResponse.ok().bodyValueAndAwait(it)
+        }
+    }
+
     suspend fun create(request: ServerRequest): ServerResponse {
-        val member = request.awaitBody<Member>()
+        val member = request.awaitBody<CreateMemberReq>()
         return memberService.save(member).let {
             ServerResponse.ok().bodyValueAndAwait(it)
         }
     }
+
+    suspend fun signIn(request: ServerRequest): ServerResponse {
+        val signInReq = request.awaitBody<SignInReq>()
+        return memberService.signIn(signInReq).let {
+            ServerResponse.ok().bodyValueAndAwait(it)
+        }
+    }
+
 
 }

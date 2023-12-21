@@ -11,3 +11,21 @@ class Member(
     var name: String,
 ) : BaseEntity()
 
+data class CreateMemberReq(
+    var email: String,
+    var password: String,
+    var name: String,
+)
+
+data class CreateMemberRes(
+    var id: Long = -1,
+)
+
+data class SignInReq(
+    var email: String,
+    var password: String,
+)
+
+data class SignInRes(
+    var id: Long = -1,
+)

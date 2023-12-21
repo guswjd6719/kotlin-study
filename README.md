@@ -9,4 +9,4 @@
 -- TODO
 * 회원가입기능
 * JWT 적용
-* 
+* email verification

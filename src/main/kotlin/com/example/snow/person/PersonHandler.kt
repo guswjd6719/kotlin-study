@@ -50,19 +50,19 @@ class PersonHandler(
     }
 
     suspend fun redisTest(request: ServerRequest): ServerResponse {
+        // path로 넘겨받기
         val key = request.queryParam("key").get()
         val value = request.queryParam("value").get()
         val count = request.queryParam("count").get()
 
-        //lua script 파일 사용
-        //TODO - path PersonData- enum으로 따로 빼기
+        //lua script 파일 사용 - key:value를 set하고 get
+        //TODO - path- enum으로 따로 빼기
         val luaSetStockPath = "/lua/set-stock.lua"
         val setStockScript = DefaultRedisScript<Long>()
         setStockScript.setLocation(ClassPathResource(luaSetStockPath))
         setStockScript.setResultType(Long::class.java)
 
         val vStock = "$key:$value"
-
 
         return redisTemplate.execute(
             setStockScript, mutableListOf(vStock), count

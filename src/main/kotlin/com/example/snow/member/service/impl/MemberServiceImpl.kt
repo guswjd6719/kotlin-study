@@ -23,9 +23,15 @@ class MemberServiceImpl(
         return memberRepository.findById(id).orElseThrow()
     }
 
+    @Transactional(readOnly = true)
+    override fun findByEmail(email: String): Member? {
+        return memberRepository.findByEmail(email)
+    }
+
     @Transactional
     override fun save(memberReq: CreateMemberReq): CreateMemberRes {
-        val encodedPassword = encodePasswordFromBase64ToBCrypt(memberReq.password)
+
+        val encodedPassword = encodePasswordBCrypt(memberReq.password)
         return CreateMemberRes(memberRepository.save(
                 Member(
                     email = memberReq.email,
@@ -36,13 +42,25 @@ class MemberServiceImpl(
         )
     }
 
-
-    private fun encodePasswordFromBase64ToBCrypt(base64Password: String): String {
-        val decodedPassword = String(Base64.getDecoder().decode(base64Password))
-        return passwordEncoder.encode(decodedPassword)
-    }
     @Transactional
     override fun signIn(signInReq: SignInReq): SignInRes {
-        return SignInRes(memberRepository.findByEmail(signInReq.email).id!!)
+        val member = memberRepository.findByEmail(signInReq.email)
+            ?: throw Exception("not found email")
+
+        if(!passwordEncoder.matches(signInReq.password, member.password)){
+            throw Exception("password not match")
+        }
+
+        return SignInRes(member.id!!)
+    }
+
+    private fun encodePasswordBCrypt(basePassword: String): String {
+        return passwordEncoder.encode(basePassword)
+    }
+
+    private fun encodePasswordFromBase64ToBCrypt(base64Password: String): String {
+        //클라에서 Base64로 인코딩해서 보내게 될 때 사용
+        val decodedPassword = String(Base64.getDecoder().decode(base64Password))
+        return passwordEncoder.encode(decodedPassword)
     }
 }

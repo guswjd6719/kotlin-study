@@ -30,8 +30,10 @@ class MemberServiceImpl(
 
     @Transactional
     override fun save(memberReq: CreateMemberReq): CreateMemberRes {
-
-        val encodedPassword = encodePasswordBCrypt(memberReq.password)
+        val encodedPassword = encodePasswordFromBase64ToBCrypt(memberReq.password)
+        if(memberRepository.findByEmail(memberReq.email) != null){
+            throw Exception("email already exist")
+        }
         return CreateMemberRes(memberRepository.save(
                 Member(
                     email = memberReq.email,
@@ -47,7 +49,7 @@ class MemberServiceImpl(
         val member = memberRepository.findByEmail(signInReq.email)
             ?: throw Exception("not found email")
 
-        if(!passwordEncoder.matches(signInReq.password, member.password)){
+        if(!passwordEncoder.matches(String(Base64.getDecoder().decode(signInReq.password)), member.password)){
             throw Exception("password not match")
         }
 

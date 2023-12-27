@@ -1,5 +1,7 @@
 package com.example.snow.member.service.impl
 
+import com.example.snow.exception.ApplicationException
+import com.example.snow.exception.ErrorMessageCode
 import com.example.snow.member.*
 import com.example.snow.member.service.MemberService
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -47,10 +49,10 @@ class MemberServiceImpl(
     @Transactional
     override fun signIn(signInReq: SignInReq): SignInRes {
         val member = memberRepository.findByEmail(signInReq.email)
-            ?: throw Exception("not found email")
+            ?: throw ApplicationException(ErrorMessageCode.MEMBER_NOT_FOUND)
 
         if(!passwordEncoder.matches(String(Base64.getDecoder().decode(signInReq.password)), member.password)){
-            throw Exception("password not match")
+            throw ApplicationException(ErrorMessageCode.MEMBER_PASSWORD_NOT_MATCH)
         }
 
         return SignInRes(member.id!!)

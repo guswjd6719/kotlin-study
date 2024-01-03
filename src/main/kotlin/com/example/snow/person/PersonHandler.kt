@@ -1,9 +1,7 @@
 package com.example.snow.person
 
 import com.example.snow.person.service.PersonService
-import org.springframework.core.io.ClassPathResource
-import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.script.DefaultRedisScript
+import com.example.snow.util.RedisUtil
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -14,7 +12,7 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 @Component
 class PersonHandler(
     private val personService: PersonService,
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisUtil: RedisUtil
 ) {
     suspend fun findAll(request: ServerRequest): ServerResponse {
         return personService.findAll().let { people ->
@@ -54,19 +52,7 @@ class PersonHandler(
         val key = request.queryParam("key").get()
         val value = request.queryParam("value").get()
         val count = request.queryParam("count").get()
-
-        //lua script 파일 사용 - key:value를 set하고 get
-        //TODO - path- enum으로 따로 빼기
-        val luaSetStockPath = "/lua/set-stock.lua"
-        val setStockScript = DefaultRedisScript<Long>()
-        setStockScript.setLocation(ClassPathResource(luaSetStockPath))
-        setStockScript.setResultType(Long::class.java)
-
-        val vStock = "$key:$value"
-
-        return redisTemplate.execute(
-            setStockScript, mutableListOf(vStock), count
-        ).let {
+        return redisUtil.setAndGetData(key, value, count).let {
             ServerResponse.ok().bodyValueAndAwait(it)
         }
     }

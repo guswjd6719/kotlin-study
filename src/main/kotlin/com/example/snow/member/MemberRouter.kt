@@ -17,7 +17,7 @@ class MemberRouter {
             accept(MediaType.APPLICATION_JSON).nest {
                 GET("/{id}", handler::findById)
                 GET("/", handler::findAll)
-                POST("/", handler::create)
+                POST("/sign-up", handler::create)
                 POST("/sign-in", handler::signIn)
             }
         }

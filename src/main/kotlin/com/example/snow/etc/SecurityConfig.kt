@@ -18,7 +18,7 @@ class SecurityConfig {
         return http {
             cors { disable() }
             csrf { disable() }
-            securityMatcher(PathPatternParserServerWebExchangeMatcher("/admin/*/auth/sign-in"))
+            securityMatcher(PathPatternParserServerWebExchangeMatcher("/member/sign-in"))
             authorizeExchange {
                 authorize(anyExchange, authenticated)
             }

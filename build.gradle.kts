@@ -33,6 +33,12 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.0")
 
 
+
+// https://mvnrepository.com/artifact/com.github.librepdf/openpdf
+    implementation("com.github.librepdf:openpdf:1.3.30")
+// https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
+    implementation("net.sf.jasperreports:jasperreports:6.20.1")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     runtimeOnly("com.mysql:mysql-connector-j")

@@ -5,7 +5,6 @@ import net.sf.jasperreports.engine.JasperFillManager
 import net.sf.jasperreports.engine.JasperPrint
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.engine.util.JRSaver
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration
@@ -19,7 +18,7 @@ class EmployeeReportService (
     private val reportRepository: ReportRepository
 ){
     @Transactional(readOnly = true)
-    fun make(): String {
+    fun makeReport(): String {
 
         return try {
             val employees = reportRepository.findAll()
@@ -29,7 +28,7 @@ class EmployeeReportService (
 
             val employeeReportStream = javaClass.getResourceAsStream("/jasper/template2.jrxml")
             val jasperReport = JasperCompileManager.compileReport(employeeReportStream)
-            JRSaver.saveObject(jasperReport, "employeeReport2.jasper");
+            //JRSaver.saveObject(jasperReport, "employeeReport2.jasper");
 
             // Add parameters
             val parameters: MutableMap<String, Any> = HashMap()

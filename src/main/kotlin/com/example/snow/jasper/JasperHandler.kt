@@ -1,5 +1,7 @@
 package com.example.snow.jasper
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -10,7 +12,9 @@ class JasperHandler(
     private val employeeReportService: EmployeeReportService
 ) {
     suspend fun makeReport(request: ServerRequest): ServerResponse {
-        return employeeReportService.make().let {
+        return withContext(Dispatchers.IO) {
+            employeeReportService.makeReport()
+        }.let {
             ServerResponse.ok().bodyValueAndAwait(it)
         }
     }

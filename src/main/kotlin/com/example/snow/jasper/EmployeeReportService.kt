@@ -1,10 +1,11 @@
 package com.example.snow.jasper
 
-import net.sf.jasperreports.engine.JasperCompileManager
 import net.sf.jasperreports.engine.JasperFillManager
 import net.sf.jasperreports.engine.JasperPrint
+import net.sf.jasperreports.engine.JasperReport
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 import net.sf.jasperreports.engine.export.JRPdfExporter
+import net.sf.jasperreports.engine.util.JRLoader
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration
@@ -24,11 +25,17 @@ class EmployeeReportService (
             val employees = reportRepository.findAll()
             val reportPath = "/jasper"
 
-            // Compile the Jasper report from .jrxml to .japser
+            // 1-1) .jrxml 파일로 report 생성
+            //val employeeReportStream = javaClass.getResourceAsStream("/jasper/template2.jrxml")
+            //val jasperReport = JasperCompileManager.compileReport(employeeReportStream)
 
-            val employeeReportStream = javaClass.getResourceAsStream("/jasper/template2.jrxml")
-            val jasperReport = JasperCompileManager.compileReport(employeeReportStream)
+            // Compile the Jasper report from .jrxml to .japser
             //JRSaver.saveObject(jasperReport, "employeeReport2.jasper");
+
+            // 1-2) 컴파일한 .jasper 파일로 report 생성
+            val employeeReportStream = javaClass.getResourceAsStream("/jasper/employeeReport2.jasper")
+            val jasperReport: JasperReport = JRLoader.loadObject(employeeReportStream) as JasperReport
+
 
             // Add parameters
             val parameters: MutableMap<String, Any> = HashMap()
@@ -42,7 +49,7 @@ class EmployeeReportService (
 
             exporter.setExporterInput(SimpleExporterInput(jasperPrint))
             exporter.setExporterOutput(
-                SimpleOutputStreamExporterOutput("employeeReport2.pdf")
+                SimpleOutputStreamExporterOutput("employeeReport3.pdf")
             )
 
             val reportConfig = SimplePdfReportConfiguration()

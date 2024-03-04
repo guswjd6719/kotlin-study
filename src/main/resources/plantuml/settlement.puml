@@ -1,0 +1,37 @@
+@startuml
+
+object "monthly_settlement" as ms
+
+ms : id
+ms : 발행년도
+ms : 발행월
+ms : 발행인(source partner_id)
+ms : 발행대상(target partner_id) (default : heavenly)
+ms : 총 금액
+ms : partner_fee_rate
+ms : 정산 확인 여부 for 헤븐리
+ms : 정산 확인 여부 for cp사
+ms : 세금명세서url
+
+object "monthly_settlement_product : 상품별로 row 쌓음" as msp
+msp : monthly_settlement_id
+msp : product_id
+msp : 정산여부: boolean
+msp : memo
+msp : product 매출 금액
+msp : partner_fee_rate (content_fee_rate)
+
+ms <|-- msp
+
+object "partner_content" as pc
+pc : mg:예납금 컬럼 추가
+pc : target patner사 추가 (default : heavenly)
+object "partner_content_mg_history" as pcmh
+pcmh : partner_id
+pcmh : 금액
+pcmh : partner_content_id
+pcmh : monthly_settlement_id (어떤 정산에서 사용되었는지 알아야함)
+
+pc <|-- pcmh
+@enduml
+

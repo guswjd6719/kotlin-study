@@ -36,4 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-snow/src/main/resources/settlement.puml
+snow/src/main/resources/
